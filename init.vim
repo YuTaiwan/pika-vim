@@ -90,7 +90,7 @@ let g:mapleader = ' '
 let g:maplocalleader = ' '
 runtime custom/leader.vim
 " }}}
-" => Plugin settings {{{
+" => Plugin settings {{{i
 """"""""""""""""""""""""""""""
 " include matchit plugins in vim
 if !exists('g:loaded_matchit')
@@ -139,6 +139,8 @@ Plug 'tpope/vim-vinegar'
 if has('nvim')
   Plug 'neovim/nvim-lspconfig'
   Plug 'hrsh7th/nvim-compe'
+  Plug 'glepnir/lspsaga.nvim'
+  Plug 'ojroques/nvim-lspfuzzy'
   set completeopt=menuone,noselect
 endif
 
@@ -264,24 +266,24 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  --buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  --buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  --buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  --buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  --buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  --buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  --buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  --buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "rls", "clangd" }
+local servers = { "rls", "clangd", "pylsp"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -300,6 +302,26 @@ nvim_lsp.rls.setup {
     },
   },
 }
+nvim_lsp.pylsp.setup {
+  on_attach = on_attach,
+  settings = {
+    configurationSources = {"flake8"},
+    formatCommand = {"black"},
+    pylsp = {
+      plugins = { 
+          isort = { enabled = false },
+          -- black = { enabled = true },
+          -- flake8 = {enabled = true },
+          pycodestyle = {enabled = false },
+          pyflakes = {enabled = false },
+          pylsp_mypy = {enabled = false },
+      },
+    },
+  },
+}
+--local saga = require('lspsaga')
+--saga.init_lsp_saga()
+require('lspfuzzy').setup {}
 EOF
 endif
 " }}}
@@ -454,7 +476,7 @@ set smarttab
 set cino+=g0.5s,h0.5s,(0,W2s
 
 " line break on 80 characters
-set tw=80
+set tw=125
 " color column after 'textwidth'
 set colorcolumn=+1
 
@@ -653,7 +675,7 @@ noremap <silent><leader>cp :cp<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " }}}
-" => Language section {{{
+" => language section {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " --- python --- {{{
 let python_highlight_all = 1
@@ -661,7 +683,7 @@ let python_no_parameter_highlight = 1
 " }}}
 " --- latex --- {{{
 let g:tex_flavor = 'latex'
-let g:tex_fast = 'Mm'
+let g:tex_fast = 'mm'
 " }}}
 " --- haskell --- {{{
 let hs_highlight_boolean = 1
@@ -674,6 +696,7 @@ let g:yacc_uses_cpp = 1
 " }}}
 " => Load custom settings {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua require('vim.lsp.diagnostic')._define_default_signs_and_highlights()
 runtime custom/local.vim
 " }}}
 " vim:fdm=marker:foldlevel=0
