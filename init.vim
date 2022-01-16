@@ -190,7 +190,7 @@ let g:bufExplorerShowNoName = 1
 " --- vimtex --- {{{
 let g:vimtex_fold_enabled = 0
 let g:vimtex_imaps_leader = ';'
-let g:vimtex_quickfix_latexlog = {
+let g:vimtex_quickfix_ignore_filters = {
       \ 'overfull' : 0,
       \ 'underfull' : 0,
       \ 'specifier changed to' : 0,
@@ -319,8 +319,8 @@ nvim_lsp.pylsp.setup {
     },
   },
 }
---local saga = require('lspsaga')
---saga.init_lsp_saga()
+local saga = require 'lspsaga'
+saga.init_lsp_saga()
 require('lspfuzzy').setup {}
 EOF
 endif
@@ -696,7 +696,7 @@ let g:yacc_uses_cpp = 1
 " }}}
 " => Load custom settings {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua require('vim.lsp.diagnostic')._define_default_signs_and_highlights()
+" lua require('vim.lsp.diagnostic')._define_default_signs_and_highlights()
 runtime custom/local.vim
 " }}}
 " vim:fdm=marker:foldlevel=0

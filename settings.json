@@ -1,0 +1,16 @@
+{
+    "pylsp": {
+        "configurationSources": ["flake8", "black"],
+        "plugins": {
+            //"pyflakes": {
+            //    "enabled": true
+            //},
+            "pydocstyle": {
+                "enabled": false
+            },
+            "isort": {
+                "enabled": false
+            }
+        }
+    }
+}
