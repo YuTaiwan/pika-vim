@@ -84,10 +84,10 @@ autocmd!
 " => Map leader settings {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set map leader to ' '
-let mapleader = ' '
-let maplocalleader = ' '
-let g:mapleader = ' '
-let g:maplocalleader = ' '
+let mapleader = "'"
+let maplocalleader = "'"
+let g:mapleader = "'"
+let g:maplocalleader = "'" 
 runtime custom/leader.vim
 " }}}
 " => Plugin settings {{{i
@@ -274,9 +274,9 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
@@ -629,6 +629,9 @@ nnoremap <C-e> <ESC>
 inoremap <C-e> <ESC>
 vnoremap <C-e> <ESC>
 snoremap <C-e> <ESC>
+
+inoremap jk <ESC>
+vnoremap jk <ESC>
 
 " smarter command line
 cnoremap <c-n>  <down>
