@@ -136,6 +136,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 
+Plug 'psf/black', { 'branch': 'stable' }
+
 if has('nvim')
   Plug 'neovim/nvim-lspconfig'
   Plug 'hrsh7th/nvim-compe'
@@ -277,7 +279,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
 
@@ -306,7 +308,6 @@ nvim_lsp.pylsp.setup {
   on_attach = on_attach,
   settings = {
     configurationSources = {"flake8"},
-    formatCommand = {"black"},
     pylsp = {
       plugins = { 
           isort = { enabled = false },
@@ -653,6 +654,9 @@ endfunction
 noremap <S-F7> :call ShowHiGroup()<CR>
 " workaround for neovim
 noremap <F19> :call ShowHiGroup()<CR>
+
+" formatting
+nnoremap <space>f :Black<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " }}}
