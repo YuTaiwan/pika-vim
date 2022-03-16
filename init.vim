@@ -577,7 +577,7 @@ endfunction
 au BufRead,BufNewFile * call SetWrapKeyMapping()
 noremap <silent><F3> :call ToggleWrap()<CR>
 
-inoremap <C-l> <Del>
+" inoremap <C-l> <Del>
 
 nnoremap <C-down>  <C-w>j
 nnoremap <C-left>  <C-w>h
@@ -618,10 +618,10 @@ nnoremap - <C-x>
 set clipboard+=unnamed
 
 " Move lines of text using CTRL+[jk]
-nnoremap <C-j> :m+<CR>:echo "move line down"<CR>
-nnoremap <C-k> :m-2<CR>:echo "move line up"<CR>
-vnoremap <C-j> :m'>+<CR>:echo "move block down"<CR>gv
-vnoremap <C-k> :m'<-2<CR>:echo "move block up"<CR>gv
+" nnoremap <C-k> :m-2<CR>:echo "move line up"<CR>
+" vnoremap <C-j> :m'>+<CR>:echo "move block down"<CR>gv
+" vnoremap <C-k> :m'<-2<CR>:echo "move block up"<CR>gv
+" nnoremap <C-j> :m+<CR>:echo "move line down"<CR>
 
 nnoremap <silent><leader>/ :nohl<CR>
 
